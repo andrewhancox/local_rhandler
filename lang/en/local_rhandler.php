@@ -21,6 +21,9 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+$string['invalidpathtorscript'] = 'Path to Rscript is invalid, please check and update in: Site administration / Server / System paths';
+$string['nopathtorscript'] = 'Please configure a path to Rscript in: Site administration / Server / System paths';
+$string['nopathtorscriptlink'] = 'System paths';
 $string['privacy:nullproviderreason'] = 'This plugin stores no user information.';
 $string['pluginname'] = 'R handler';
 $string['pathtorscript'] = 'Path to Rscript';

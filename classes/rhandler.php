@@ -48,7 +48,7 @@ class rhandler {
         }
     }
 
-    public function execute() {
+    public function execute($ignorereturncode = false) {
         $descriptorspec = array(
                 0 => array("pipe", "r"),  // stdin is a pipe that the child will read from
                 1 => array("pipe", "w"),  // stdout is a pipe that the child will write to
@@ -56,11 +56,15 @@ class rhandler {
         );
 
         $absolutepathtoscript = \escapeshellarg($this->absolutepathtoscript);
-        $rscript = \escapeshellarg(get_config('local_rhandler', 'pathtorscript'));
 
+        $rscript = get_config('local_rhandler', 'pathtorscript');
         if (empty($rscript)) {
-            print_error('Set path to Rscript');
+            print_error('nopathtorscript', 'local_rhandler');
         }
+        if (!file_exists($rscript)) {
+            print_error('invalidpathtorscript', 'local_rhandler');
+        }
+        $rscript = \escapeshellarg($rscript);
 
         $cmd = "$rscript $absolutepathtoscript";
 
