@@ -61,14 +61,15 @@ class rhandler {
         if (empty($rscript)) {
             print_error('nopathtorscript', 'local_rhandler');
         }
-        if (!file_exists($rscript)) {
+
+        $sshproxy = get_config('local_rhandler', 'sshproxy');
+        if (empty($sshproxy) && !file_exists($rscript)) {
             print_error('invalidpathtorscript', 'local_rhandler');
         }
         $rscript = \escapeshellarg($rscript);
 
         $cmd = "$rscript $absolutepathtoscript";
 
-        $sshproxy = get_config('local_rhandler', 'sshproxy');
         if (!empty($sshproxy)) {
             $cmd = $sshproxy . ' "' . $cmd . '"';
         }
