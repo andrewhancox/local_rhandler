@@ -66,7 +66,7 @@ class rhandler {
         if (empty($sshproxy) && !file_exists($rscript)) {
             print_error('invalidpathtorscript', 'local_rhandler');
         }
-        $rscript = \escapeshellarg($rscript);
+        $escapedrscript = \escapeshellarg($rscript);
 
         $remotepathtoscripts = get_config('local_rhandler', 'remotepathtoscripts');
         if (!empty($sshproxy) && !empty($remotepathtoscripts)) {
@@ -75,9 +75,9 @@ class rhandler {
             $absolutepathtoscript = $CFG->dirroot . $this->relativepathtoscript;
         }
 
-        $absolutepathtoscript = \escapeshellarg($absolutepathtoscript);
+        $escapedabsolutepathtoscript = \escapeshellarg($absolutepathtoscript);
 
-        $cmd = "$rscript $absolutepathtoscript";
+        $cmd = "$escapedrscript $escapedabsolutepathtoscript";
 
         if (!empty($sshproxy)) {
             $cmd = $sshproxy . ' "' . $cmd . '"';
@@ -98,6 +98,15 @@ class rhandler {
             fclose($pipes[2]);
 
             $this->returnvalue = proc_close($process);
+
+            if ($this->returnvalue <> 0) {
+                $this->errors .= "\n$this->output";
+                $this->output = '';
+            }
+        }
+
+        if (empty($this->output)) {
+            $this->errors .= "\nPath used to script: $absolutepathtoscript\nPath used to rscript: $rscript\nSSH Proxy: $sshproxy\nFull escaped command: $cmd";
         }
 
         return $this->returnvalue;
