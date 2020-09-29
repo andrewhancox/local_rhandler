@@ -27,5 +27,7 @@ $string['nopathtorscriptlink'] = 'System paths';
 $string['privacy:nullproviderreason'] = 'This plugin stores no user information.';
 $string['pluginname'] = 'R handler';
 $string['pathtorscript'] = 'Path to Rscript';
+$string['remotepathtoscripts'] = 'Remote path to scripts';
+$string['remotepathtoscripts_help'] = 'Remote path to scripts. This is the location on the remote R server that will mirror the directory structure of Moodle, note, this only needs to contain the RScripts for each plugin.';
 $string['sshproxy'] = 'Rscript SSH proxy';
 $string['sshproxy_help'] = 'SSH command to connect to a remote server with R installed e.g. ssh myusername@serverwithrinstalled.orgname.com';

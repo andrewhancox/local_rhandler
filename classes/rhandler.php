@@ -28,10 +28,10 @@ class rhandler {
     private $output;
     private $errors;
     private $returnvalue;
-    private $absolutepathtoscript;
+    private $relativepathtoscript;
 
-    public function __construct($absolutepathtoscript) {
-        $this->absolutepathtoscript = $absolutepathtoscript;
+    public function __construct($relativepathtoscript) {
+        $this->relativepathtoscript = $relativepathtoscript;
     }
 
     public function setinput($input) {
@@ -49,13 +49,13 @@ class rhandler {
     }
 
     public function execute($ignorereturncode = false) {
+        global $CFG;
+
         $descriptorspec = array(
                 0 => array("pipe", "r"),  // stdin is a pipe that the child will read from
                 1 => array("pipe", "w"),  // stdout is a pipe that the child will write to
                 2 => array("pipe", "w") // stderr is a file to write to
         );
-
-        $absolutepathtoscript = \escapeshellarg($this->absolutepathtoscript);
 
         $rscript = get_config('local_rhandler', 'pathtorscript');
         if (empty($rscript)) {
@@ -67,6 +67,15 @@ class rhandler {
             print_error('invalidpathtorscript', 'local_rhandler');
         }
         $rscript = \escapeshellarg($rscript);
+
+        $remotepathtoscripts = get_config('local_rhandler', 'remotepathtoscripts');
+        if (!empty($sshproxy) && !empty($remotepathtoscripts)) {
+            $absolutepathtoscript = $remotepathtoscripts . $this->relativepathtoscript;
+        } else {
+            $absolutepathtoscript = $CFG->dirroot . $this->relativepathtoscript;
+        }
+
+        $absolutepathtoscript = \escapeshellarg($absolutepathtoscript);
 
         $cmd = "$rscript $absolutepathtoscript";
 

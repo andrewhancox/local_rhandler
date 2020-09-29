@@ -32,4 +32,7 @@ if ($hassiteconfig) {
     $systempathpage->add(new admin_setting_configexecutable('local_rhandler/sshproxy',
             new lang_string('sshproxy', 'local_rhandler'), new lang_string('sshproxy_help', 'local_rhandler'),
             ''));
+    $systempathpage->add(new admin_setting_configexecutable('local_rhandler/remotepathtoscripts',
+            new lang_string('remotepathtoscripts', 'local_rhandler'), new lang_string('remotepathtoscripts_help', 'local_rhandler'),
+            '/opt/rscripts'));
 }
