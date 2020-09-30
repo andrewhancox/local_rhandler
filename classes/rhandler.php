@@ -61,6 +61,7 @@ class rhandler {
         if (empty($rscript)) {
             print_error('nopathtorscript', 'local_rhandler');
         }
+        $rscript = trim($rscript);
 
         $sshproxy = get_config('local_rhandler', 'sshproxy');
         if (empty($sshproxy) && !file_exists($rscript)) {
@@ -69,6 +70,7 @@ class rhandler {
         $escapedrscript = \escapeshellarg($rscript);
 
         $remotepathtoscripts = get_config('local_rhandler', 'remotepathtoscripts');
+        $remotepathtoscripts = trim($remotepathtoscripts);
         if (!empty($sshproxy) && !empty($remotepathtoscripts)) {
             $absolutepathtoscript = $remotepathtoscripts . $this->relativepathtoscript;
         } else {
